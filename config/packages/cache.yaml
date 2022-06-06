@@ -1,0 +1,10 @@
+framework:
+    cache:
+        app: cache.adapter.filesystem
+        pools:
+            # creates a "custom_thing.cache" service
+            # autowireable via "CacheInterface $resultCache"
+            # uses the "app" cache configuration
+            result.cache:
+                adapter: cache.app
+                default_lifetime: 60
