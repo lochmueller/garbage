@@ -1,8 +1,13 @@
 <?php
 
-interface ProviderInterface {
+namespace App\Provider;
 
+use App\Entity\Address;
 
-	public function canHandleAddress(Address $address):bool;
+interface ProviderInterface
+{
 
+    public function canHandleAddress(Address $address): bool;
+
+    public function getGarbageInformation(Address $address);
 }
