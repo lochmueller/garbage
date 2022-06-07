@@ -11,7 +11,7 @@ use Symfony\Contracts\Cache\CacheInterface;
 class ApiController extends AbstractController
 {
 
-    #[Route('api')]
+    #[Route('/api')]
     public function __invoke(
         Request            $request, // Move to listern for Address
         RateLimiterFactory $fairUseLimiter,
@@ -25,6 +25,4 @@ class ApiController extends AbstractController
 
         // Handle reques
     }
-
-    // ...
 }

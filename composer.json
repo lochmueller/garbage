@@ -11,6 +11,7 @@
         "nyholm/psr7": "^1.5",
         "php-http/guzzle6-adapter": "^2.0",
         "php-http/httplug-bundle": "^1.26",
+        "sensio/framework-extra-bundle": "^6.2",
         "symfony/cache": "6.1.*",
         "symfony/console": "6.1.*",
         "symfony/dotenv": "6.1.*",
@@ -19,7 +20,11 @@
         "symfony/mailer": "6.1.*",
         "symfony/rate-limiter": "6.1.*",
         "symfony/runtime": "6.1.*",
-        "symfony/yaml": "6.1.*"
+        "symfony/twig-bundle": "6.1.*",
+        "symfony/webpack-encore-bundle": "^1.14",
+        "symfony/yaml": "6.1.*",
+        "twig/extra-bundle": "^2.12|^3.0",
+        "twig/twig": "^2.12|^3.0"
     },
     "config": {
         "allow-plugins": {
