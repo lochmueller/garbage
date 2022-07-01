@@ -165,5 +165,9 @@ class GermanyBielefeld implements ProviderInterface
         }, array_keys($params), $params));
     }
 
+    public function getProviderName(): string
+    {
+        return 'Stadt Bielefeld';
+    }
 }
 

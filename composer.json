@@ -9,7 +9,7 @@
         "ext-iconv": "*",
         "league/iso3166": "^4.0",
         "nyholm/psr7": "^1.5",
-        "php-http/guzzle6-adapter": "^2.0",
+        "php-http/guzzle7-adapter": "^1.0",
         "php-http/httplug-bundle": "^1.26",
         "sensio/framework-extra-bundle": "^6.2",
         "symfony/cache": "6.1.*",
