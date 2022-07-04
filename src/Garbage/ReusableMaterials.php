@@ -1,10 +1,9 @@
 <?php
 
-
 namespace App\Garbage;
 
 /**
- * Wertstoffe (Gelbe Tonne)
+ * Wertstoffe (Gelbe Tonne).
  */
 class ReusableMaterials extends AbstractGarbage
 {

@@ -1,14 +1,11 @@
 <?php
 
-
 namespace App\Garbage;
 
 /**
- * Restmüll
+ * Restmüll.
  */
-class ResidualWaste extends AbstractGarbage {
-
+class ResidualWaste extends AbstractGarbage
+{
     public const KEY = 'residual_waste';
 }
-
-

@@ -1,7 +1,4 @@
 <?php
-/**
- *
- */
 
 namespace App\Tests\Unit\Entity;
 
@@ -11,7 +8,6 @@ use Symfony\Component\Validator\Validation;
 
 class AddressTest extends AbstractUnitTest
 {
-
     /**
      * @dataProvider getValidAddressProvider
      */
@@ -22,7 +18,6 @@ class AddressTest extends AbstractUnitTest
             ->getValidator();
 
         self::assertEquals(0, $validator->validate($address)->count());
-
     }
 
     /**
@@ -30,7 +25,6 @@ class AddressTest extends AbstractUnitTest
      */
     public function testInvalidAddresses(Address $address)
     {
-
         $validator = Validation::createValidatorBuilder()
             ->enableAnnotationMapping()
             ->getValidator();

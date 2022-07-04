@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Provider;
-
 
 use App\Entity\Address;
 use App\Garbage\Bio;
@@ -15,12 +13,10 @@ use Psr\Http\Message\RequestFactoryInterface;
 
 class GermanyBielefeld implements ProviderInterface
 {
-
     public function __construct(
-        protected HttpClient              $client,
+        protected HttpClient $client,
         protected RequestFactoryInterface $requestFactory,
-    )
-    {
+    ) {
     }
 
     protected $validZip = [
@@ -36,18 +32,16 @@ class GermanyBielefeld implements ProviderInterface
         '33647',
         '33649',
         '33699',
-        '33739'
+        '33739',
     ];
-
 
     public function canHandleAddress(Address $address): bool
     {
-        return in_array($address->zip, $this->validZip) && $address->country == 'DE';
+        return in_array($address->zip, $this->validZip) && 'DE' == $address->country;
     }
 
     public function getGarbageInformation(Address $address)
     {
-
         $request = $this->requestFactory->createRequest('GET', 'https://anwendungen.bielefeld.de/WasteManagementBielefeld/WasteManagementServlet?SubmitAction=wasteDisposalServices');
         $response = $this->client->sendRequest($request->withBody($this->createBody('wasteDisposalServices')));
 
@@ -59,7 +53,7 @@ class GermanyBielefeld implements ProviderInterface
             }
         }
 
-        if ($sessionId === null) {
+        if (null === $sessionId) {
             throw new \Exception('No session was created', 123671823);
         }
 
@@ -94,8 +88,9 @@ class GermanyBielefeld implements ProviderInterface
 
     protected function getDateList($match): array
     {
-        $firstStep = strip_tags(str_replace(["</P>", "!"], "\n", $match));
+        $firstStep = strip_tags(str_replace(['</P>', '!'], "\n", $match));
         $dates = explode("\n", $firstStep);
+
         return array_filter(array_map('trim', $dates), function ($item) {
             return !empty($item);
         });
@@ -112,6 +107,7 @@ class GermanyBielefeld implements ProviderInterface
             'Referer' => 'https://anwendungen.bielefeld.de/WasteManagementBielefeld/WasteManagementServlet',
             'Cookie' => implode('; ', array_map(function ($cookieItem) {
                 $parts = explode(';', $cookieItem);
+
                 return $parts[0];
             }, $cookieItems)),
             'Upgrade-Insecure-Requests' => '1',
@@ -127,7 +123,7 @@ class GermanyBielefeld implements ProviderInterface
         $params = [
             'Ajax' => 'false',
             'AjaxDelay' => '0',
-            #'ApplicationName' => 'com.athos.kd.bielefeld.ObjectAddressForWasteDisposalBusinessCase',
+            // 'ApplicationName' => 'com.athos.kd.bielefeld.ObjectAddressForWasteDisposalBusinessCase',
             'ApplicationName' => 'com.athos.kd.bielefeld.CheckAbfuhrTermineParameterBusinessCase',
             'Build' => '2021-10-11 9:00',
             'Focus' => 'Hausnummer',
@@ -160,7 +156,6 @@ class GermanyBielefeld implements ProviderInterface
             return [
                 'name' => $key,
                 'contents' => $value,
-
             ];
         }, array_keys($params), $params));
     }
@@ -170,4 +165,3 @@ class GermanyBielefeld implements ProviderInterface
         return 'Stadt Bielefeld';
     }
 }
-

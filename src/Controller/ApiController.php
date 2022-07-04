@@ -10,18 +10,21 @@ use Symfony\Contracts\Cache\CacheInterface;
 
 class ApiController extends AbstractController
 {
-
-    #[Route('/api')]
+    #[
+        Route(
+            path: '/api',
+            methods: 'POST',
+            schemes: ['https']
+        )
+    ]
     public function __invoke(
-        Request            $request, // Move to listern for Address
+        Request $request, // Move to listener for Address
         RateLimiterFactory $fairUseLimiter,
-        CacheInterface     $resultCache
-    )
-    {
-
+        CacheInterface $resultCache
+    ) {
         // API Key here!
-        #$limiter = $fairUseLimiter->create($request->getClientIp());
-        #$limiter->consume(1)->ensureAccepted();
+        // $limiter = $fairUseLimiter->create($request->getClientIp());
+        // $limiter->consume(1)->ensureAccepted();
 
         // Handle reques
     }

@@ -1,33 +1,23 @@
 <?php
 
-
 namespace App\Provider;
-
 
 use App\Entity\Address;
 use App\Exception\NoResultViaProviderException;
-use App\Garbage\Bio;
-use App\Garbage\Paper;
-use App\Garbage\ResidualWaste;
-use App\Garbage\ReusableMaterials;
-use GuzzleHttp\Psr7\MultipartStream;
 use Http\Client\HttpClient;
 use Psr\Http\Message\RequestFactoryInterface;
 
 class GermanyCologne implements ProviderInterface
 {
-
     protected const API = 'https://www.awbkoeln.de/api/';
 
     public function __construct(
-        protected HttpClient              $client,
+        protected HttpClient $client,
         protected RequestFactoryInterface $requestFactory,
-    )
-    {
+    ) {
     }
 
     protected $validZip = [
-
         '50667',
         '50668',
         '50670',
@@ -75,15 +65,14 @@ class GermanyCologne implements ProviderInterface
         '51149',
     ];
 
-
     public function canHandleAddress(Address $address): bool
     {
-        return in_array($address->zip, $this->validZip) && $address->country == 'DE';
+        return in_array($address->zip, $this->validZip) && 'DE' == $address->country;
     }
 
     public function getGarbageInformation(Address $address)
     {
-        $uri = self::API . 'streets?street_name=' . $address->street . '&building_number=' . $address->houseNumber . '&building_number_addition=&form=json';
+        $uri = self::API.'streets?street_name='.$address->street.'&building_number='.$address->houseNumber.'&building_number_addition=&form=json';
         $request = $this->requestFactory->createRequest('GET', $uri);
         $response = $this->client->sendRequest($request);
 
@@ -95,7 +84,7 @@ class GermanyCologne implements ProviderInterface
 
         $row = $content->data[0];
 
-        $uri = self::API . 'calendar?building_number=' . $row->building_number . '&street_code=' . $row->street_code . '&start_year=' . date('Y') . '&end_year=' . date('Y') . '&start_month=1&end_month=12&form=json';
+        $uri = self::API.'calendar?building_number='.$row->building_number.'&street_code='.$row->street_code.'&start_year='.date('Y').'&end_year='.date('Y').'&start_month=1&end_month=12&form=json';
         var_dump($uri);
         $request = $this->requestFactory->createRequest('GET', $uri);
         $response = $this->client->sendRequest($request);
@@ -107,14 +96,11 @@ class GermanyCologne implements ProviderInterface
         // @todo
         //
 
-
-        #return $this->parseResults($pageResult);
+        // return $this->parseResults($pageResult);
     }
-
 
     public function getProviderName(): string
     {
         return 'Stadt Köln';
     }
 }
-

@@ -3,14 +3,10 @@
 namespace App\Tests\Unit\Provider;
 
 use App\Entity\Address;
-use App\Provider\GermanyBielefeld;
 use App\Provider\ProviderInterface;
 use App\Tests\Unit\AbstractUnitTest;
-use Http\Client\HttpClient;
 use Http\Discovery\HttpClientDiscovery;
-use Http\Discovery\MessageFactoryDiscovery;
 use Http\Discovery\Psr17FactoryDiscovery;
-use Psr\Http\Message\RequestFactoryInterface;
 
 abstract class AbstractProviderTest extends AbstractUnitTest
 {
@@ -39,12 +35,14 @@ abstract class AbstractProviderTest extends AbstractUnitTest
     protected function getProvider(): ProviderInterface
     {
         $providerClass = $this->getProviderClass();
+
         return new $providerClass(HttpClientDiscovery::find(), Psr17FactoryDiscovery::findRequestFactory());
     }
 
     protected function getValidAddress(): Address
     {
         $firstItem = $this->getHandleableAddresses()->current();
+
         return $firstItem[0];
     }
 }

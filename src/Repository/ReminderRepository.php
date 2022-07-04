@@ -2,7 +2,19 @@
 
 namespace App\Repository;
 
-class ReminderRepository
-{
+use App\Entity\Reminder;
+use Doctrine\Persistence\ManagerRegistry;
 
+/**
+ * @method Reminder|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Reminder|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Reminder[]    findAll()
+ * @method Reminder[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ */
+class ReminderRepository extends AbstractRepository
+{
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Reminder::class);
+    }
 }

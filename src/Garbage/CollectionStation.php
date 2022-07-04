@@ -1,10 +1,9 @@
 <?php
 
-
 namespace App\Garbage;
 
 /**
- * Wertstoffhof
+ * Wertstoffhof.
  */
 class CollectionStation extends AbstractGarbage
 {
