@@ -20,32 +20,37 @@ class Address
             Assert\Length(min: 3, max: 255),
             ORM\Column(type: 'string', length: 255),
         ]
-        public readonly string $street = '',
+        public string $street = '',
         #[
             Assert\NotBlank,
             Assert\Length(max: 10),
             ORM\Column(type: 'string', length: 10),
         ]
-        public readonly string $houseNumber = '',
+        public string $houseNumber = '',
         #[
             Assert\NotBlank,
             Assert\Length(min: 3),
             ORM\Column(type: 'string', length: 10),
         ]
-        public readonly string $zip = '',
+        public string $zip = '',
         #[
             Assert\NotBlank,
             Assert\Length(min: 3, max: 50),
             ORM\Column(type: 'string', length: 50),
         ]
-        public readonly string $city = '',
+        public string $city = '',
         #[
             Assert\NotBlank,
             Assert\Length(min: 2, max: 2),
             Assert\Regex('/^[A-Z]*$/'),
             ORM\Column(type: 'string', length: 2),
         ]
-        public readonly string $country = '',
+        public string $country = '',
     ) {
+    }
+
+    public function __toString(): string
+    {
+        return $this->street.' '.$this->houseNumber.', '.$this->zip.' '.$this->city.', '.$this->country;
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Api;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -8,11 +8,12 @@ use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Cache\CacheInterface;
 
-class ApiController extends AbstractController
+class FetchAction extends AbstractController
 {
     #[
         Route(
-            path: '/api',
+            name: 'ApiFetch',
+            path: '/api/fetch',
             methods: 'POST',
             schemes: ['https']
         )

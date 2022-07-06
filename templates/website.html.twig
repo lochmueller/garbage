@@ -3,16 +3,28 @@
 {% block body %}
     <h1><i class="bi bi-trash"></i> {{ websiteName }}</h1>
 
-    API Key
+    {% for message in app.flashes('notice') %}
+        <div class="flash-notice">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    <h2>Search</h2>
+    {{ form(searchForm) }}
+
+    {% if showResults %}
+        {{ dump(result) }}
+    {% endif %}
+
+    <h3>ICS + Reminder</h3>
+
+    <h2>API Key</h2>
     {{ form(apiKeyForm) }}
 
-    Reminder
+    <h2>Reminder</h2>
     {{ form(reminderForm) }}
 
-    ICS
 
-    Reminder
-    {{ form(searchForm) }}
 
 
     {% block page_contents %}{% endblock %}

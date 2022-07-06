@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ApiKeyRepository;
 use App\Traits\Entity\CreatedTrait;
 use App\Traits\Entity\IdTrait;
+use App\Traits\Entity\OptInDateTrait;
 use App\Traits\Entity\UpdatedTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -17,6 +18,7 @@ class ApiKey
     use IdTrait;
     use CreatedTrait;
     use UpdatedTrait;
+    use OptInDateTrait;
 
     public function __construct(
         #[
@@ -24,7 +26,7 @@ class ApiKey
             Assert\Email(),
             ORM\Column(type: 'string', length: 255),
         ]
-        public readonly string $email = '',
+        public string $email = '',
         #[
             ORM\Column(type: 'string', length: 64),
         ]

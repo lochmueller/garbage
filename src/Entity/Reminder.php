@@ -24,7 +24,7 @@ class Reminder
             Assert\Email(),
             ORM\Column(type: 'string', length: 255),
         ]
-        public readonly string $email = '',
+        public string $email = '',
 
         // @todo address
     ) {

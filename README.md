@@ -1,4 +1,4 @@
-# garbage
+# Garbage
 
 Server: symfony server:start
 Yarn: npm run-script build
