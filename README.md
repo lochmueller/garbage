@@ -1,7 +1,7 @@
 # garbage
 
 Server: symfony server:start
-Yarn: yarn build
+Yarn: npm run-script build
 
 Tests: ./bin/tests
 
