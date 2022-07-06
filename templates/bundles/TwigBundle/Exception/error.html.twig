@@ -1,0 +1,11 @@
+{# templates/bundles/TwigBundle/Exception/error404.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Fehler</h1>
+
+    <p>
+        Es ist ein Fehler aufgetreten. Bitte versuche es später nochmals.
+        misspelling or <a href="{{ path('app_website_home') }}">return to the homepage</a>.
+    </p>
+{% endblock %}

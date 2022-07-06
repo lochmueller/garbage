@@ -2,7 +2,7 @@
 
 namespace App\Controller\ApiKey;
 
-use App\Controller\WebsiteController;
+use App\Controller\Website\HomeAction;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,14 +13,14 @@ class ConfirmAction extends AbstractController
 {
     #[
         Route(
-            name: 'ApiKeyConfirm',
             path: '/key/confirm',
+            name: 'app_apikey_confirm',
             methods: 'GET'
         )
     ]
     public function __invoke(Request $request, ManagerRegistry $doctrine): Response
     {
         // @todo
-        return $this->forward(WebsiteController::class);
+        return $this->forward(HomeAction::class);
     }
 }

@@ -12,8 +12,8 @@ class FetchAction extends AbstractController
 {
     #[
         Route(
-            name: 'ApiFetch',
             path: '/api/fetch',
+            name: 'app_api_fetch',
             methods: 'POST',
             schemes: ['https']
         )

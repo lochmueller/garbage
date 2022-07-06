@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Website;
 
 use App\Entity\Address;
 use App\Form\Type\ApiRegistrationType;
@@ -8,16 +8,16 @@ use App\Form\Type\MailNotificationRegistrationType;
 use App\Form\Type\SearchType;
 use App\Service\GarbageInformationService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class WebsiteController extends AbstractController
+class HomeAction extends AbstractController
 {
     #[
         Route(
             path: '/',
+            name: 'app_website_home',
             methods: ['GET', 'POST']
         )
     ]
@@ -38,16 +38,11 @@ class WebsiteController extends AbstractController
         $params = [
             'showResults' => $showResults,
             'result' => $result,
-            'searchForm' => $this->getForm(SearchType::class),
-            'apiKeyForm' => $this->getForm(ApiRegistrationType::class),
-            'reminderForm' => $this->getForm(MailNotificationRegistrationType::class),
+            'searchForm' => $form->createView(),
+            'apiKeyForm' => $this->createForm(ApiRegistrationType::class)->createView(),
+            'reminderForm' => $this->createForm(MailNotificationRegistrationType::class)->createView(),
         ];
 
         return $this->render('website.html.twig', $params);
-    }
-
-    protected function getForm(string $type): FormView
-    {
-        return $this->createForm($type)->createView();
     }
 }

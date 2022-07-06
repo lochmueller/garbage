@@ -2,7 +2,7 @@
 
 namespace App\Controller\ApiKey;
 
-use App\Controller\WebsiteController;
+use App\Controller\Website\HomeAction;
 use App\Entity\ApiKey;
 use App\Form\Type\ApiRegistrationType;
 use Doctrine\Persistence\ManagerRegistry;
@@ -16,8 +16,8 @@ class CreateAction extends AbstractController
 {
     #[
         Route(
-            name: 'ApiKeyCreate',
             path: '/key/create',
+            name: 'app_apikey_create',
             methods: 'POST'
         )
     ]
@@ -42,9 +42,9 @@ class CreateAction extends AbstractController
                 'Your changes were saved!'
             );
 
-            return $this->forward(WebsiteController::class);
+            return $this->forward(HomeAction::class);
         }
 
-        return $this->forward(WebsiteController::class);
+        return $this->forward(HomeAction::class);
     }
 }
