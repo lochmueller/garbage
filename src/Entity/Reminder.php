@@ -3,7 +3,9 @@
 namespace App\Entity;
 
 use App\Repository\ReminderRepository;
+use App\Traits\Entity\CreatedTrait;
 use App\Traits\Entity\IdTrait;
+use App\Traits\Entity\UpdatedTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -13,6 +15,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Reminder
 {
     use IdTrait;
+    use CreatedTrait;
+    use UpdatedTrait;
 
     public function __construct(
         #[
@@ -20,7 +24,7 @@ class Reminder
             Assert\Email(),
             ORM\Column(type: 'string', length: 255),
         ]
-        public readonly string $email,
+        public readonly string $email = '',
 
         // @todo address
     ) {

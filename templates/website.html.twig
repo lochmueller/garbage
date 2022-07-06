@@ -1,7 +1,19 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Blog</h1>
+    <h1><i class="bi bi-trash"></i> {{ websiteName }}</h1>
+
+    API Key
+    {{ form(apiKeyForm) }}
+
+    Reminder
+    {{ form(reminderForm) }}
+
+    ICS
+
+    Reminder
+    {{ form(searchForm) }}
+
 
     {% block page_contents %}{% endblock %}
 {% endblock %}
