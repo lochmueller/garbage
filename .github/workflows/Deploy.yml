@@ -38,8 +38,17 @@ jobs:
       - name: Unit Tests with phpunit
         run: ./bin/phpunit
 
+      - name: Create prod context
+        uses: "finnp/create-file-action@master"
+        env:
+          FILE_NAME: ".env.local"
+          FILE_DATA: "APP_ENV=prod"
+
       - name: Install PROD
         run: composer install --no-dev
+
+      - name: Dump env
+        run: composer dump-env prod
 
       - name: Start NPM
         uses: actions/setup-node@v3
