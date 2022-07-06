@@ -7,6 +7,7 @@ use App\Garbage\Bio;
 use App\Garbage\Paper;
 use App\Garbage\ResidualWaste;
 use App\Garbage\ReusableMaterials;
+use App\Service\DateService;
 use GuzzleHttp\Psr7\MultipartStream;
 use Http\Client\HttpClient;
 use Psr\Http\Message\RequestFactoryInterface;
@@ -16,6 +17,7 @@ class GermanyBielefeld implements ProviderInterface
     public function __construct(
         protected HttpClient $client,
         protected RequestFactoryInterface $requestFactory,
+        protected DateService $dateService,
     ) {
     }
 
@@ -79,11 +81,34 @@ class GermanyBielefeld implements ProviderInterface
         preg_match('#<UL class=\\\\"flexiblelist\\\\" ID=\\\\"TermineW\\\\">(.*?)</UL>#', $content, $wertstoffMatches);
 
         return [
-            ResidualWaste::KEY => $this->getDateList($restMatches[1]),
-            Bio::KEY => $this->getDateList($bioMatches[1]),
-            Paper::KEY => $this->getDateList($paperMatches[1]),
-            ReusableMaterials::KEY => $this->getDateList($wertstoffMatches[1]),
+            ResidualWaste::KEY => $this->convertDateTime($this->getDateList($restMatches[1])),
+            Bio::KEY => $this->convertDateTime($this->getDateList($bioMatches[1])),
+            Paper::KEY => $this->convertDateTime($this->getDateList($paperMatches[1])),
+            ReusableMaterials::KEY => $this->convertDateTime($this->getDateList($wertstoffMatches[1])),
         ];
+    }
+
+    protected function convertDateTime(array $list): array
+    {
+        $start = $this->dateService->getSelectionStart();
+        $end = $this->dateService->getSelectionEnd();
+
+        $result = [];
+        foreach ($list as $item) {
+            try {
+                $date = new \DateTime($item);
+            } catch (\Exception) {
+                continue;
+            }
+
+            if ($date < $start || $date > $end) {
+                continue;
+            }
+
+            $result[] = $date;
+        }
+
+        return $result;
     }
 
     protected function getDateList($match): array
@@ -91,7 +116,9 @@ class GermanyBielefeld implements ProviderInterface
         $firstStep = strip_tags(str_replace(['</P>', '!'], "\n", $match));
         $dates = explode("\n", $firstStep);
 
-        return array_filter(array_map('trim', $dates), function ($item) {
+        return array_filter(array_map(function ($date) {
+            return trim($date, ' *');
+        }, $dates), function ($item) {
             return !empty($item);
         });
     }

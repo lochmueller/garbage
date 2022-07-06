@@ -7,16 +7,6 @@ use App\Provider\GermanyCologne;
 
 class GermanyCologneTest extends AbstractProviderTest
 {
-    /**
-     * @medium
-     */
-    public function testFetchGarbageInformation()
-    {
-        $this->markTestSkipped('SKIP');
-        $result = $this->getProvider()->getGarbageInformation($this->getValidAddress());
-        var_dump($result);
-    }
-
     public function getProviderClass(): string
     {
         return GermanyCologne::class;

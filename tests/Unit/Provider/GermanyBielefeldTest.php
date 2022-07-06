@@ -7,14 +7,6 @@ use App\Provider\GermanyBielefeld;
 
 class GermanyBielefeldTest extends AbstractProviderTest
 {
-    public function testFetchGarbageInformation()
-    {
-        $this->markTestSkipped('SKIP');
-
-        $result = $this->getProvider()->getGarbageInformation($this->getValidAddress());
-        var_dump($result);
-    }
-
     public function getProviderClass(): string
     {
         return GermanyBielefeld::class;

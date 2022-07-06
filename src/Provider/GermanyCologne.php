@@ -4,6 +4,9 @@ namespace App\Provider;
 
 use App\Entity\Address;
 use App\Exception\NoResultViaProviderException;
+use App\Garbage\Paper;
+use App\Garbage\ReusableMaterials;
+use App\Service\DateService;
 use Http\Client\HttpClient;
 use Psr\Http\Message\RequestFactoryInterface;
 
@@ -14,6 +17,7 @@ class GermanyCologne implements ProviderInterface
     public function __construct(
         protected HttpClient $client,
         protected RequestFactoryInterface $requestFactory,
+        protected DateService $dateService,
     ) {
     }
 
@@ -72,7 +76,14 @@ class GermanyCologne implements ProviderInterface
 
     public function getGarbageInformation(Address $address)
     {
-        $uri = self::API.'streets?street_name='.$address->street.'&building_number='.$address->houseNumber.'&building_number_addition=&form=json';
+        $query = [
+            'street_name' => $address->street,
+            'building_number' => $address->houseNumber,
+            'building_number_addition' => '',
+            'form' => 'json',
+        ];
+
+        $uri = self::API.'streets?'.http_build_query($query);
         $request = $this->requestFactory->createRequest('GET', $uri);
         $response = $this->client->sendRequest($request);
 
@@ -84,19 +95,50 @@ class GermanyCologne implements ProviderInterface
 
         $row = $content->data[0];
 
-        $uri = self::API.'calendar?building_number='.$row->building_number.'&street_code='.$row->street_code.'&start_year='.date('Y').'&end_year='.date('Y').'&start_month=1&end_month=12&form=json';
-        var_dump($uri);
+        $query = [
+            'building_number' => $row->building_number,
+            'street_code' => $row->street_code,
+            'start_year' => $this->dateService->getSelectionStart()->format('Y'),
+            'end_year' => $this->dateService->getSelectionEnd()->format('Y'),
+            'start_month' => $this->dateService->getSelectionStart()->format('m'),
+            'end_month' => $this->dateService->getSelectionEnd()->format('m'),
+            'form' => 'json',
+        ];
+        $uri = self::API.'calendar?'.http_build_query($query);
+
         $request = $this->requestFactory->createRequest('GET', $uri);
         $response = $this->client->sendRequest($request);
 
         $finalResult = json_decode((string) $response->getBody());
 
-        // var_dump($finalResult);
+        if (!isset($finalResult->data)) {
+            throw new NoResultViaProviderException();
+        }
 
-        // @todo
-        //
+        $result = [];
+        foreach ($finalResult->data as $item) {
+            try {
+                $date = new \DateTime($item->day.'.'.$item->month.'.'.$item->year);
+            } catch (\Exception) {
+                continue;
+            }
 
-        // return $this->parseResults($pageResult);
+            switch ($item->type) {
+                case 'wertstoff':
+                    $result[ReusableMaterials::KEY][] = $date;
+                    break;
+                case 'grey':
+                    $result[ReusableMaterials::KEY][] = $date;
+                    break;
+                case 'blue':
+                    $result[Paper::KEY][] = $date;
+                    break;
+                default:
+                    // @todo Add logger
+            }
+        }
+
+        return $result;
     }
 
     public function getProviderName(): string

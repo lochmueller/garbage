@@ -3,6 +3,7 @@
 namespace App\Provider;
 
 use App\Entity\Address;
+use App\Service\DateService;
 use Http\Client\HttpClient;
 use Psr\Http\Message\RequestFactoryInterface;
 
@@ -11,6 +12,7 @@ class GermanyHamburg implements ProviderInterface
     public function __construct(
         protected HttpClient $client,
         protected RequestFactoryInterface $requestFactory,
+        protected DateService $dateService,
     ) {
     }
 
