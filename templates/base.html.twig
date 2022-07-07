@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Garbage{% endblock %}</title>
+        <title>{% block title %}{{ websiteName }}{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
         {% block stylesheets %}
@@ -16,6 +16,21 @@
     <body>
         <div class="container">
             {% block body %}{% endblock %}
+
+            <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+                <p class="col-md-4 mb-0 text-muted">© {{ "now"|date('Y') }} {{ websiteName }}</p>
+
+                <a href="/" class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+                    <i class="bi bi-trash"></i>
+                </a>
+
+                <ul class="nav col-md-4 justify-content-end">
+                    <li class="nav-item"><a href="/" class="nav-link px-2 text-muted">Starseite</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">openHAB</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Feedback</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Impressum</a></li>
+                </ul>
+            </footer>
         </div>
     </body>
 </html>

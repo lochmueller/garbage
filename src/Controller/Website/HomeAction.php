@@ -43,6 +43,6 @@ class HomeAction extends AbstractController
             'reminderForm' => $this->createForm(MailNotificationRegistrationType::class)->createView(),
         ];
 
-        return $this->render('website.html.twig', $params);
+        return $this->render('website/home.html.twig', $params);
     }
 }

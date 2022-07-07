@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="px-4 py-5 my-5 text-center">
+        <h1 class="display-5 fw-bold"><i class="bi bi-trash"></i><br/>{{ websiteName }}</h1>
+        <div class="col-lg-6 mx-auto">
+            <p class="lead mb-4">
+                Einfache API um auf Müllabführ Daten zurückzugreifen. Integration in verschiedene Dritt-Systeme oder
+                Zugriff via ICS bzw. Reminder.
+                Komplett kostenlos via fairuse! <i class="bi bi-suit-heart" style="color: red"></i> Freuen uns über <a
+                        href="/feedback">Feedback</a>.
+            </p>
+        </div>
+    </div>
+
+    {% for message in app.flashes('notice') %}
+        <div class="flash-notice">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    <div class="px-4 py-5" id="hanging-icons">
+        <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+            <div class="col d-flex align-items-start">
+                <div class="icon-square text-dark d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+                    <i class="bi bi-lightning"></i>
+                </div>
+                <div>
+                    <h2>API</h2>
+                    <p>Zugriff via API von u.a. <a href="/integration/openhab">openHAB</a> für dein Smart Home. Lese
+                        aktuelle Abfuhrtermine via JSON
+                        Schnittstelle aus.</p>
+                    <a href="#" class="btn btn-primary">
+                        Adresse eingeben
+                    </a>
+                </div>
+            </div>
+            <div class="col d-flex align-items-start">
+                <div class="icon-square text-dark d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+                    <i class="bi bi-alarm"></i>
+                </div>
+                <div>
+                    <h2>Reminder</h2>
+                    <p>Lass dich via E-mail an die Abfuhr Termine erinnern. Ein Tag vorher kommt die Info.</p>
+                    <a href="#address" class="btn btn-primary">
+                        Adresse eingeben
+                    </a>
+                </div>
+            </div>
+            <div class="col d-flex align-items-start">
+                <div class="icon-square text-dark d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+                    <i class="bi bi-alarm"></i>
+                </div>
+                <div>
+                    <h2>ICS</h2>
+                    <p>Download als ICS für einmaligen Import in deinen Kalendar. Schnell und einfach importiert.</p>
+                    <a href="#address" class="btn btn-primary">
+                        Adresse eingeben
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h2 id="address"><i class="bi bi-geo-alt"></i> Adresse eingeben</h2>
+    {{ form(searchForm) }}
+
+    {% if showResults %}
+        {{ dump(result) }}
+    {% endif %}
+
+{% endblock %}
